@@ -22,7 +22,7 @@ declare function useListener(target: MayBeRef<Document | Element>, type: MayBeRe
  */
 declare type Nullable<T> = T | null | undefined;
 
-declare function whenTruly<T>(source: WatchSource<Nullable<T>>, callback: (source: T) => void): void;
+declare function whenTruly<T>(source: WatchSource<Nullable<T>>, callback?: (source: T) => void): Promise<T>;
 
 interface PromiseHook<T> {
     result: T;

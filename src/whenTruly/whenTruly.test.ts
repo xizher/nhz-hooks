@@ -44,11 +44,12 @@ test('whenTruly(): can run right with onScopeDispose', async () => {
   expect(count).toBe(0)
   const scope2 = effectScope()
   scope2.run(() => {
-    whenTruly(value, val => {
+    whenTruly(value).then(val => {
       trulyResult = val
       count++
     })
   })
+  await nextTick()
   expect(trulyResult).toBe(2)
   expect(count).toBe(1)
 })

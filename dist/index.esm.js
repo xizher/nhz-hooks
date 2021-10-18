@@ -114,13 +114,16 @@ const isNullable = (val) => typeof val === 'undefined' || val === null;
 
 function whenTruly(source, callback) {
     let stop = null;
-    stop = watch(source, val => {
-        if (!isNullable(val)) {
-            callback(val);
-            stop?.();
-        }
-    }, { immediate: true });
     onScopeDispose(() => stop?.());
+    return new Promise(resolve => {
+        stop = watch(source, val => {
+            if (!isNullable(val)) {
+                callback?.(val);
+                stop?.();
+                resolve(val);
+            }
+        }, { immediate: true });
+    });
 }
 
 function usePromise(promise, initialValue) {

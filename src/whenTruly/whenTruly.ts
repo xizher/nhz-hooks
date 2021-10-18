@@ -1,15 +1,18 @@
 import { watch, WatchSource, onScopeDispose, WatchStopHandle } from 'vue'
 import { isNullable, Nullable } from '../../../utils/src'
 
-export function whenTruly<T> (source: WatchSource<Nullable<T>>, callback: (source: T) => void) {
+export function whenTruly<T> (source: WatchSource<Nullable<T>>, callback?: (source: T) => void) : Promise<T> {
   let stop : Nullable<WatchStopHandle> = null
-  stop = watch(source, val => {
-    if (!isNullable(val)) {
-      callback(val as T)
-      stop?.()
-    }
-  }, { immediate: true })
   onScopeDispose(() => stop?.())
+  return new Promise(resolve => {
+    stop = watch(source, val => {
+      if (!isNullable(val)) {
+        callback?.(val)
+        stop?.()
+        resolve(val)
+      }
+    }, { immediate: true })
+  })
 }
 
 export default whenTruly
