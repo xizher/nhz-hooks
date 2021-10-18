@@ -1,7 +1,6 @@
-import { watchEffect } from 'vue'
+import { watchEffect, onScopeDispose } from 'vue'
 import { Fn, makeDestructurable, makeEventListener, Nullable } from '@nhz/utils'
 import { get, MayBeRef } from '../base'
-import { tryOnBeforeUnmount } from '@vueuse/core'
 
 export function useListener (target: MayBeRef<Document | Element>, type: MayBeRef<string>, callback: MayBeRef<Fn>) {
   let _stop: Nullable<Fn>
@@ -14,7 +13,7 @@ export function useListener (target: MayBeRef<Document | Element>, type: MayBeRe
     const _callback = get(callback)
     _stop = makeEventListener(_target, _type, _callback)
   })
-  tryOnBeforeUnmount(() => stop())
+  onScopeDispose(() => stop())
   return makeDestructurable(
     { stop } as const,
     [stop] as const,

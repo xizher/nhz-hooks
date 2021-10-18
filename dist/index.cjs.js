@@ -66,11 +66,6 @@ function get(target) {
     return vue.unref(target);
 }
 
-function tryOnBeforeUnmount(fn) {
-  if (vue.getCurrentInstance())
-    vue.onBeforeUnmount(fn);
-}
-
 function useTimeout(callback, ms) {
     let _stop;
     const stop = () => _stop?.();
@@ -80,7 +75,7 @@ function useTimeout(callback, ms) {
         const _ms = get(ms);
         _stop = makeTimeout(_callback, _ms);
     });
-    tryOnBeforeUnmount(() => stop());
+    vue.onScopeDispose(() => stop());
     return makeDestructurable({ stop }, [stop]);
 }
 
@@ -93,7 +88,7 @@ function useInterval(callback, ms) {
         const _ms = get(ms);
         _stop = makeInterval(_callback, _ms);
     });
-    tryOnBeforeUnmount(() => stop());
+    vue.onScopeDispose(() => stop());
     return makeDestructurable({ stop }, [stop]);
 }
 
@@ -107,7 +102,7 @@ function useListener(target, type, callback) {
         const _callback = get(callback);
         _stop = makeEventListener(_target, _type, _callback);
     });
-    tryOnBeforeUnmount(() => stop());
+    vue.onScopeDispose(() => stop());
     return makeDestructurable({ stop }, [stop]);
 }
 
@@ -122,13 +117,14 @@ function useListener(target, type, callback) {
 const isNullable = (val) => typeof val === 'undefined' || val === null;
 
 function whenTruly(source, callback) {
-    const stop = vue.watch(source, val => {
+    let stop = null;
+    stop = vue.watch(source, val => {
         if (!isNullable(val)) {
             callback(val);
             stop?.();
         }
     }, { immediate: true });
-    tryOnBeforeUnmount(() => stop?.());
+    vue.onScopeDispose(() => stop?.());
 }
 
 exports.useInterval = useInterval;

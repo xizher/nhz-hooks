@@ -1,4 +1,4 @@
-import { unref, getCurrentInstance, onBeforeUnmount, watchEffect, watch } from 'vue';
+import { unref, watchEffect, onScopeDispose, watch } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -62,11 +62,6 @@ function get(target) {
     return unref(target);
 }
 
-function tryOnBeforeUnmount(fn) {
-  if (getCurrentInstance())
-    onBeforeUnmount(fn);
-}
-
 function useTimeout(callback, ms) {
     let _stop;
     const stop = () => _stop?.();
@@ -76,7 +71,7 @@ function useTimeout(callback, ms) {
         const _ms = get(ms);
         _stop = makeTimeout(_callback, _ms);
     });
-    tryOnBeforeUnmount(() => stop());
+    onScopeDispose(() => stop());
     return makeDestructurable({ stop }, [stop]);
 }
 
@@ -89,7 +84,7 @@ function useInterval(callback, ms) {
         const _ms = get(ms);
         _stop = makeInterval(_callback, _ms);
     });
-    tryOnBeforeUnmount(() => stop());
+    onScopeDispose(() => stop());
     return makeDestructurable({ stop }, [stop]);
 }
 
@@ -103,7 +98,7 @@ function useListener(target, type, callback) {
         const _callback = get(callback);
         _stop = makeEventListener(_target, _type, _callback);
     });
-    tryOnBeforeUnmount(() => stop());
+    onScopeDispose(() => stop());
     return makeDestructurable({ stop }, [stop]);
 }
 
@@ -118,13 +113,14 @@ function useListener(target, type, callback) {
 const isNullable = (val) => typeof val === 'undefined' || val === null;
 
 function whenTruly(source, callback) {
-    const stop = watch(source, val => {
+    let stop = null;
+    stop = watch(source, val => {
         if (!isNullable(val)) {
             callback(val);
             stop?.();
         }
     }, { immediate: true });
-    tryOnBeforeUnmount(() => stop?.());
+    onScopeDispose(() => stop?.());
 }
 
 export { useInterval, useListener, useTimeout, whenTruly };

@@ -1,7 +1,6 @@
-import { watchEffect } from 'vue'
+import { watchEffect, onScopeDispose } from 'vue'
 import { Fn, makeDestructurable, makeTimeout, Nullable } from '@nhz/utils'
 import { get, MayBeRef } from '../base'
-import { tryOnBeforeUnmount } from '@vueuse/core'
 
 export function useTimeout (callback: MayBeRef<Fn>, ms?: MayBeRef<number>) {
   let _stop: Nullable<Fn>
@@ -13,7 +12,7 @@ export function useTimeout (callback: MayBeRef<Fn>, ms?: MayBeRef<number>) {
     const _ms = get(ms)
     _stop = makeTimeout(_callback, _ms)
   })
-  tryOnBeforeUnmount(() => stop())
+  onScopeDispose(() => stop())
   return makeDestructurable(
     { stop } as const,
     [stop] as const,
