@@ -1,4 +1,4 @@
-import { unref, watchEffect, onScopeDispose, watch } from 'vue';
+import { unref, watchEffect, onScopeDispose, watch, reactive, computed, toRefs } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -123,4 +123,41 @@ function whenTruly(source, callback) {
     onScopeDispose(() => stop?.());
 }
 
-export { useInterval, useListener, useTimeout, whenTruly };
+function usePromise(promise, initialValue) {
+    const state = reactive({
+        result: initialValue,
+        loaded: false,
+        error: null,
+        success: computed(() => state.loaded && !state.error)
+    });
+    watchEffect(() => {
+        const _promise = get(promise);
+        if (typeof _promise === 'function') {
+            _promise()
+                .then(res => {
+                state.result = res;
+                // state.loaded = true
+            })
+                .catch(err => {
+                state.error = err;
+                // state.loaded = true
+            })
+                .finally(() => state.loaded = true); // sth. wrong
+        }
+        else {
+            _promise
+                .then(res => {
+                state.result = res;
+                // state.loaded = true
+            })
+                .catch(err => {
+                state.error = err;
+                // state.loaded = true
+            })
+                .finally(() => state.loaded = true);
+        }
+    });
+    return toRefs(state);
+}
+
+export { useInterval, useListener, usePromise, useTimeout, whenTruly };

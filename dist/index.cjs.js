@@ -127,7 +127,45 @@ function whenTruly(source, callback) {
     vue.onScopeDispose(() => stop?.());
 }
 
+function usePromise(promise, initialValue) {
+    const state = vue.reactive({
+        result: initialValue,
+        loaded: false,
+        error: null,
+        success: vue.computed(() => state.loaded && !state.error)
+    });
+    vue.watchEffect(() => {
+        const _promise = get(promise);
+        if (typeof _promise === 'function') {
+            _promise()
+                .then(res => {
+                state.result = res;
+                // state.loaded = true
+            })
+                .catch(err => {
+                state.error = err;
+                // state.loaded = true
+            })
+                .finally(() => state.loaded = true); // sth. wrong
+        }
+        else {
+            _promise
+                .then(res => {
+                state.result = res;
+                // state.loaded = true
+            })
+                .catch(err => {
+                state.error = err;
+                // state.loaded = true
+            })
+                .finally(() => state.loaded = true);
+        }
+    });
+    return vue.toRefs(state);
+}
+
 exports.useInterval = useInterval;
 exports.useListener = useListener;
+exports.usePromise = usePromise;
 exports.useTimeout = useTimeout;
 exports.whenTruly = whenTruly;
