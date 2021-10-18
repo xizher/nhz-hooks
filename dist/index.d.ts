@@ -1,5 +1,5 @@
-import { Fn } from 'utils';
-import { Ref } from 'vue';
+import { Fn } from '@nhz/utils';
+import { Ref, WatchSource } from 'vue';
 
 declare type MayBeRef<T> = T | Ref<T>;
 
@@ -15,4 +15,11 @@ declare function useListener(target: MayBeRef<Document | Element>, type: MayBeRe
     readonly stop: () => void | undefined;
 } & readonly [() => void | undefined];
 
-export { useInterval, useListener, useTimeout };
+/**
+ * Null or whatever
+ */
+declare type Nullable<T> = T | null | undefined;
+
+declare function whenTruly<T>(source: WatchSource<Nullable<T>>, callback: (source: T) => void): void;
+
+export { useInterval, useListener, useTimeout, whenTruly };

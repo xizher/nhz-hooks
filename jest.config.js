@@ -9,5 +9,6 @@ module.exports = {
     '/dist',
     '/build',
   ],
-  testEnvironment: 'jsdom'
+  moduleDirectories: ['node_modules', 'src'],
+  testEnvironment: 'jsdom',
 }

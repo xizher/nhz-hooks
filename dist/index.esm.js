@@ -1,4 +1,4 @@
-import { unref, getCurrentInstance, onBeforeUnmount, watchEffect } from 'vue';
+import { unref, getCurrentInstance, onBeforeUnmount, watchEffect, watch } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -107,4 +107,24 @@ function useListener(target, type, callback) {
     return makeDestructurable({ stop }, [stop]);
 }
 
-export { useInterval, useListener, useTimeout };
+/**
+ * 判断变量是否为 object 类型
+ * @param val 变量
+ */
+/**
+ * 判断变量是否为 null 或者 undefined
+ * @param val 变量
+ */
+const isNullable = (val) => typeof val === 'undefined' || val === null;
+
+function whenTruly(source, callback) {
+    const stop = watch(source, val => {
+        if (!isNullable(val)) {
+            callback(val);
+            stop?.();
+        }
+    }, { immediate: true });
+    tryOnBeforeUnmount(() => stop?.());
+}
+
+export { useInterval, useListener, useTimeout, whenTruly };
