@@ -1,0 +1,49 @@
+{
+  "name": "@nhz/hooks",
+  "version": "0.0.0",
+  "description": "【@nhz/utils】Collection of common vue3 composition api utils 🌏",
+  "main": "dist/index.cmj.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "test:dev": "jest --watch",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "readme": "node scripts/readme.js",
+    "version": "node scripts/version.js",
+    "check:packages-version": "node scripts/check-packages-version.js",
+    "build": "rollup --config build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xizher/nhz-hooks.git"
+  },
+  "author": "ngheizit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xizher/nhz-hooks/issues"
+  },
+  "homepage": "https://github.com/xizher/nhz-hooks#readme",
+  "dependencies": {
+    "vue": "^3.2.10",
+    "@vueuse/core": "^6.6.1"
+  },
+  "devDependencies": {
+    "utils": "file:../utils",
+    "@rollup/plugin-commonjs": "^21.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.5",
+    "@types/jest": "^27.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "conventional-changelog-cli": "^2.1.1",
+    "eslint": "^8.0.1",
+    "rollup": "^2.58.0",
+    "rollup-jest": "^1.1.3",
+    "rollup-plugin-dts": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-jest": "^27.0.5",
+    "typedoc": "^0.22.5",
+    "typedoc-plugin-markdown": "^3.11.3",
+    "typescript": "^4.4.3"
+  }
+}
