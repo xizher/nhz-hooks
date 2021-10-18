@@ -6,8 +6,8 @@ export function useListener (target: MayBeRef<Document | Element>, type: MayBeRe
   let _stop: Nullable<Fn>
   const stop = () => _stop?.()
 
-  watchEffect(() => {
-    stop()
+  watchEffect((onInvalidate) => {
+    onInvalidate(() => stop())
     const _target = get(target)
     const _type = get(type)
     const _callback = get(callback)

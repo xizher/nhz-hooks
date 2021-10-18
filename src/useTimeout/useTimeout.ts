@@ -6,8 +6,8 @@ export function useTimeout (callback: MayBeRef<Fn>, ms?: MayBeRef<number>) {
   let _stop: Nullable<Fn>
   const stop = () => _stop?.()
 
-  watchEffect(() => {
-    stop()
+  watchEffect((onInvalidate) => {
+    onInvalidate(() => stop())
     const _callback = get(callback)
     const _ms = get(ms)
     _stop = makeTimeout(_callback, _ms)

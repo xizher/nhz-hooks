@@ -65,8 +65,8 @@ function get(target) {
 function useTimeout(callback, ms) {
     let _stop;
     const stop = () => _stop?.();
-    watchEffect(() => {
-        stop();
+    watchEffect((onInvalidate) => {
+        onInvalidate(() => stop());
         const _callback = get(callback);
         const _ms = get(ms);
         _stop = makeTimeout(_callback, _ms);
@@ -78,8 +78,8 @@ function useTimeout(callback, ms) {
 function useInterval(callback, ms) {
     let _stop;
     const stop = () => _stop?.();
-    watchEffect(() => {
-        stop();
+    watchEffect((onInvalidate) => {
+        onInvalidate(() => stop());
         const _callback = get(callback);
         const _ms = get(ms);
         _stop = makeInterval(_callback, _ms);
@@ -91,8 +91,8 @@ function useInterval(callback, ms) {
 function useListener(target, type, callback) {
     let _stop;
     const stop = () => _stop?.();
-    watchEffect(() => {
-        stop();
+    watchEffect((onInvalidate) => {
+        onInvalidate(() => stop());
         const _target = get(target);
         const _type = get(type);
         const _callback = get(callback);
