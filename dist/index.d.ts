@@ -1,7 +1,6 @@
-import { Fn } from '@nhz/utils';
+import { Fn, Nullable } from '@fssgis/utils';
 import * as vue from 'vue';
 import { Ref, WatchSource } from 'vue';
-import { Fn as Fn$1 } from 'utils';
 
 declare type MayBeRef<T> = T | Ref<T>;
 
@@ -17,11 +16,6 @@ declare function useListener(target: MayBeRef<Document | Element>, type: MayBeRe
     readonly stop: () => void | undefined;
 } & readonly [() => void | undefined];
 
-/**
- * Null or whatever
- */
-declare type Nullable<T> = T | null | undefined;
-
 declare function whenTruly<T>(source: WatchSource<Nullable<T>>, callback?: (source: T) => void): Promise<T>;
 
 interface PromiseHook<T> {
@@ -30,6 +24,6 @@ interface PromiseHook<T> {
     error: unknown;
     success: boolean;
 }
-declare function usePromise<T>(promise: MayBeRef<Fn$1<Promise<T>> | Promise<T>>, initialValue: T): vue.ToRefs<PromiseHook<T>>;
+declare function usePromise<T>(promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, initialValue: T): vue.ToRefs<PromiseHook<T>>;
 
 export { PromiseHook, useInterval, useListener, usePromise, useTimeout, whenTruly };

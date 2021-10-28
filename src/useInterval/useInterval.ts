@@ -1,5 +1,5 @@
 import { watchEffect, onScopeDispose } from 'vue'
-import { Fn, makeDestructurable, makeInterval, Nullable } from '@nhz/utils'
+import { Fn, makeDestructurable, makeInterval, Nullable } from '@fssgis/utils'
 import { get, MayBeRef } from '../base'
 
 export function useInterval (callback: MayBeRef<Fn>, ms?: MayBeRef<number>) {

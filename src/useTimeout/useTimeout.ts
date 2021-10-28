@@ -1,5 +1,5 @@
 import { watchEffect, onScopeDispose } from 'vue'
-import { Fn, makeDestructurable, makeTimeout, Nullable } from '@nhz/utils'
+import { Fn, makeDestructurable, makeTimeout, Nullable } from '@fssgis/utils'
 import { get, MayBeRef } from '../base'
 
 export function useTimeout (callback: MayBeRef<Fn>, ms?: MayBeRef<number>) {

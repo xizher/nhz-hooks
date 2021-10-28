@@ -8,6 +8,11 @@ var vue = require('vue');
  * 判断变量是否为 object 类型
  * @param val 变量
  */
+/**
+ * 判断变量是否为 null 或者 undefined
+ * @param val 变量
+ */
+const isNullable = (val) => typeof val === 'undefined' || val === null;
 
 /**
  * Destructuring with object or array
@@ -105,16 +110,6 @@ function useListener(target, type, callback) {
     vue.onScopeDispose(() => stop());
     return makeDestructurable({ stop }, [stop]);
 }
-
-/**
- * 判断变量是否为 object 类型
- * @param val 变量
- */
-/**
- * 判断变量是否为 null 或者 undefined
- * @param val 变量
- */
-const isNullable = (val) => typeof val === 'undefined' || val === null;
 
 function whenTruly(source, callback) {
     let stop = null;

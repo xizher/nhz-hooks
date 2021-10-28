@@ -1,5 +1,5 @@
 import { watchEffect, onScopeDispose } from 'vue'
-import { Fn, makeDestructurable, makeEventListener, Nullable } from '@nhz/utils'
+import { Fn, makeDestructurable, makeEventListener, Nullable } from '@fssgis/utils'
 import { get, MayBeRef } from '../base'
 
 export function useListener (target: MayBeRef<Document | Element>, type: MayBeRef<string>, callback: MayBeRef<Fn>) {

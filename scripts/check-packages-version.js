@@ -3,7 +3,7 @@
 
 const { spawn } = require('child_process')
 const packageJSON = require('../package.json')
-const { arr } = require('../array/index.cjs')
+const { arr } = require('@fssgis/utils')
 
 function execCmd (command, strs) {
   return new Promise(resolve => {

@@ -1,4 +1,4 @@
-import { Fn } from 'utils'
+import { Fn } from '@fssgis/utils'
 import { get, MayBeRef } from '../base'
 import { reactive, watchEffect, computed, toRefs } from 'vue'
 

@@ -1,7 +1,7 @@
 {
   "name": "@nhz/hooks",
   "version": "0.0.0",
-  "description": "【@nhz/utils】Collection of common vue3 composition api utils 🌏",
+  "description": "【@nhz/hooks】Collection of common vue3 composition api utils 🌏",
   "main": "dist/index.cmj.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
     "readme": "node scripts/readme.js",
     "version": "node scripts/version.js",
     "check:packages-version": "node scripts/check-packages-version.js",
-    "build": "rollup --config build/index.js"
+    "build": "rollup --config rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
     "@vueuse/core": "^6.6.1"
   },
   "devDependencies": {
-    "utils": "file:../utils",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@types/jest": "^27.0.2",
