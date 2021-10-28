@@ -1,6 +1,6 @@
 {
   "name": "@nhz/hooks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "【@nhz/hooks】Collection of common vue3 composition api utils 🌏",
   "main": "dist/index.cmj.js",
   "module": "dist/index.esm.js",
