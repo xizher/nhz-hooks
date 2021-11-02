@@ -158,4 +158,19 @@ function usePromise(promise, initialValue) {
     return toRefs(state);
 }
 
-export { useInterval, useListener, usePromise, useTimeout, whenTruly };
+function makeObjectProp(arg0) {
+    return {
+        type: Object,
+        required: typeof arg0 === 'boolean' ? arg0 : undefined,
+        default: typeof arg0 === 'boolean' ? undefined : () => arg0,
+    };
+}
+function makeArrayProp(required) {
+    return {
+        type: Array,
+        required: required,
+        default: required ? undefined : () => [],
+    };
+}
+
+export { makeArrayProp, makeObjectProp, useInterval, useListener, usePromise, useTimeout, whenTruly };

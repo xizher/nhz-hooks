@@ -162,6 +162,23 @@ function usePromise(promise, initialValue) {
     return vue.toRefs(state);
 }
 
+function makeObjectProp(arg0) {
+    return {
+        type: Object,
+        required: typeof arg0 === 'boolean' ? arg0 : undefined,
+        default: typeof arg0 === 'boolean' ? undefined : () => arg0,
+    };
+}
+function makeArrayProp(required) {
+    return {
+        type: Array,
+        required: required,
+        default: required ? undefined : () => [],
+    };
+}
+
+exports.makeArrayProp = makeArrayProp;
+exports.makeObjectProp = makeObjectProp;
 exports.useInterval = useInterval;
 exports.useListener = useListener;
 exports.usePromise = usePromise;

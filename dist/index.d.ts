@@ -26,4 +26,25 @@ interface PromiseHook<T> {
 }
 declare function usePromise<T>(promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, initialValue: T): vue.ToRefs<PromiseHook<T>>;
 
-export { PromiseHook, useInterval, useListener, usePromise, useTimeout, whenTruly };
+declare function makeObjectProp<T>(arg0: true): {
+    type: T;
+    required: true;
+};
+declare function makeObjectProp<T>(arg0: T): {
+    type: T;
+    default(): T;
+};
+declare function makeArrayProp<T>(required: true): {
+    type: T[];
+    required: true;
+};
+declare function makeArrayProp<T>(required: false): {
+    type: T;
+    default(): T[];
+};
+declare function makeArrayProp<T>(): {
+    type: T;
+    default(): T[];
+};
+
+export { PromiseHook, makeArrayProp, makeObjectProp, useInterval, useListener, usePromise, useTimeout, whenTruly };
