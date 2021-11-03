@@ -177,8 +177,15 @@ function makeArrayProp(required) {
     };
 }
 
+function useHandle(fn) {
+    const stop = fn();
+    vue.onScopeDispose(() => stop());
+    return stop;
+}
+
 exports.makeArrayProp = makeArrayProp;
 exports.makeObjectProp = makeObjectProp;
+exports.useHandle = useHandle;
 exports.useInterval = useInterval;
 exports.useListener = useListener;
 exports.usePromise = usePromise;

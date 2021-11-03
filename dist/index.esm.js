@@ -173,4 +173,10 @@ function makeArrayProp(required) {
     };
 }
 
-export { makeArrayProp, makeObjectProp, useInterval, useListener, usePromise, useTimeout, whenTruly };
+function useHandle(fn) {
+    const stop = fn();
+    onScopeDispose(() => stop());
+    return stop;
+}
+
+export { makeArrayProp, makeObjectProp, useHandle, useInterval, useListener, usePromise, useTimeout, whenTruly };

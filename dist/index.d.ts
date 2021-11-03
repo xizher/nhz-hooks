@@ -47,4 +47,6 @@ declare function makeArrayProp<T>(): {
     default(): T[];
 };
 
-export { PromiseHook, makeArrayProp, makeObjectProp, useInterval, useListener, usePromise, useTimeout, whenTruly };
+declare function useHandle(fn: Fn<Fn>): Fn;
+
+export { PromiseHook, makeArrayProp, makeObjectProp, useHandle, useInterval, useListener, usePromise, useTimeout, whenTruly };
