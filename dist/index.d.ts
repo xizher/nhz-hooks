@@ -1,6 +1,6 @@
 import { Fn, Nullable } from '@fssgis/utils';
 import * as vue from 'vue';
-import { Ref, WatchSource } from 'vue';
+import { Ref, WatchSource, PropType } from 'vue';
 
 declare type MayBeRef<T> = T | Ref<T>;
 
@@ -27,24 +27,24 @@ interface PromiseHook<T> {
 declare function usePromise<T>(promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, initialValue: T): vue.ToRefs<PromiseHook<T>>;
 
 declare function makeObjectProp<T>(arg0: true): {
-    type: T;
+    type: PropType<T>;
     required: true;
 };
 declare function makeObjectProp<T>(arg0: T): {
-    type: T;
+    type: PropType<T>;
     default(): T;
 };
 declare function makeArrayProp<T>(required: true): {
-    type: T[];
+    type: PropType<T[]>;
     required: true;
 };
 declare function makeArrayProp<T>(required: false): {
-    type: T;
+    type: PropType<T[]>;
     default(): T[];
 };
 declare function makeArrayProp<T>(): {
     type: T;
-    default(): T[];
+    default(): PropType<T[]>;
 };
 
 declare function useHandle(fn: Fn<Fn>): Fn;
