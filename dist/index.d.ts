@@ -43,8 +43,8 @@ declare function makeArrayProp<T>(required: false): {
     default(): T[];
 };
 declare function makeArrayProp<T>(): {
-    type: T;
-    default(): PropType<T[]>;
+    type: PropType<T[]>;
+    default(): T[];
 };
 
 declare function useHandle(fn: Fn<Fn>): Fn;

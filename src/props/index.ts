@@ -12,7 +12,7 @@ export function makeObjectProp<T> (arg0: T | true) : unknown {
 
 export function makeArrayProp<T> (required: true) : { type: PropType<T[]>, required: true }
 export function makeArrayProp<T> (required: false) : { type: PropType<T[]>, default () : T[] }
-export function makeArrayProp<T> () : { type: T, default () : PropType<T[]> }
+export function makeArrayProp<T> () : { type: PropType<T[]>, default () : T[] }
 export function makeArrayProp<T> (required?: boolean) : unknown {
   return {
     type: Array as PropType<T[]>,
