@@ -49,4 +49,7 @@ declare function makeArrayProp<T>(): {
 
 declare function useHandle(fn: Fn<Fn>): Fn;
 
-export { PromiseHook, makeArrayProp, makeObjectProp, useHandle, useInterval, useListener, usePromise, useTimeout, whenTruly };
+declare function makeToggle(arg0: boolean): [Ref<boolean>, (val?: boolean) => boolean];
+declare function makeToggle(arg0: Ref<boolean>): (val?: boolean) => boolean;
+
+export { PromiseHook, makeArrayProp, makeObjectProp, makeToggle, useHandle, useInterval, useListener, usePromise, useTimeout, whenTruly };

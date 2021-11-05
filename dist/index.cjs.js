@@ -183,8 +183,35 @@ function useHandle(fn) {
     return stop;
 }
 
+function makeToggle(arg0) {
+    if (typeof arg0 === 'boolean') {
+        const bool = vue.ref(arg0);
+        const toggle = (val) => {
+            if (isNullable(val)) {
+                bool.value = !bool.value;
+            }
+            else {
+                bool.value = val;
+            }
+        };
+        return [bool, toggle];
+    }
+    else {
+        const toggle = (val) => {
+            if (isNullable(val)) {
+                arg0.value = !arg0.value;
+            }
+            else {
+                arg0.value = val;
+            }
+        };
+        return toggle;
+    }
+}
+
 exports.makeArrayProp = makeArrayProp;
 exports.makeObjectProp = makeObjectProp;
+exports.makeToggle = makeToggle;
 exports.useHandle = useHandle;
 exports.useInterval = useInterval;
 exports.useListener = useListener;

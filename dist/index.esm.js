@@ -1,4 +1,4 @@
-import { unref, watchEffect, onScopeDispose, watch, reactive, computed, toRefs } from 'vue';
+import { unref, watchEffect, onScopeDispose, watch, reactive, computed, toRefs, ref } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -179,4 +179,30 @@ function useHandle(fn) {
     return stop;
 }
 
-export { makeArrayProp, makeObjectProp, useHandle, useInterval, useListener, usePromise, useTimeout, whenTruly };
+function makeToggle(arg0) {
+    if (typeof arg0 === 'boolean') {
+        const bool = ref(arg0);
+        const toggle = (val) => {
+            if (isNullable(val)) {
+                bool.value = !bool.value;
+            }
+            else {
+                bool.value = val;
+            }
+        };
+        return [bool, toggle];
+    }
+    else {
+        const toggle = (val) => {
+            if (isNullable(val)) {
+                arg0.value = !arg0.value;
+            }
+            else {
+                arg0.value = val;
+            }
+        };
+        return toggle;
+    }
+}
+
+export { makeArrayProp, makeObjectProp, makeToggle, useHandle, useInterval, useListener, usePromise, useTimeout, whenTruly };
