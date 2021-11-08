@@ -209,12 +209,27 @@ function makeToggle(arg0) {
     }
 }
 
+function useObjectUrl(obj) {
+    const url = vue.ref('');
+    const destory = () => URL.revokeObjectURL(url.value);
+    vue.watchEffect(() => {
+        destory();
+        const _obj = get(obj);
+        url.value = typeof _obj === 'object'
+            ? URL.createObjectURL(new Blob([JSON.stringify(_obj)], { type: 'application/json' }))
+            : URL.createObjectURL(new Blob([String(_obj)]));
+    });
+    vue.onScopeDispose(() => destory());
+    return makeDestructurable({ url, destory }, [url, destory]);
+}
+
 exports.makeArrayProp = makeArrayProp;
 exports.makeObjectProp = makeObjectProp;
 exports.makeToggle = makeToggle;
 exports.useHandle = useHandle;
 exports.useInterval = useInterval;
 exports.useListener = useListener;
+exports.useObjectUrl = useObjectUrl;
 exports.usePromise = usePromise;
 exports.useTimeout = useTimeout;
 exports.whenTruly = whenTruly;

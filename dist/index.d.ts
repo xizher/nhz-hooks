@@ -52,4 +52,9 @@ declare function useHandle(fn: Fn<Fn>): Fn;
 declare function makeToggle(arg0: boolean): [Ref<boolean>, (val?: boolean) => boolean];
 declare function makeToggle(arg0: Ref<boolean>): (val?: boolean) => boolean;
 
-export { PromiseHook, makeArrayProp, makeObjectProp, makeToggle, useHandle, useInterval, useListener, usePromise, useTimeout, whenTruly };
+declare function useObjectUrl(obj: MayBeRef<unknown>): {
+    readonly url: vue.Ref<string>;
+    readonly destory: () => void;
+} & readonly [vue.Ref<string>, () => void];
+
+export { PromiseHook, makeArrayProp, makeObjectProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
