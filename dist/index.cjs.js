@@ -176,6 +176,20 @@ function makeArrayProp(required) {
         default: required ? undefined : () => [],
     };
 }
+function makeStringProp(arg0) {
+    return {
+        type: String,
+        required: arg0 === undefined,
+        default: arg0,
+    };
+}
+function makeNumberProp(arg0) {
+    return {
+        type: Number,
+        required: arg0 === undefined,
+        default: arg0,
+    };
+}
 
 function useHandle(fn) {
     const stop = fn();
@@ -224,7 +238,9 @@ function useObjectUrl(obj) {
 }
 
 exports.makeArrayProp = makeArrayProp;
+exports.makeNumberProp = makeNumberProp;
 exports.makeObjectProp = makeObjectProp;
+exports.makeStringProp = makeStringProp;
 exports.makeToggle = makeToggle;
 exports.useHandle = useHandle;
 exports.useInterval = useInterval;

@@ -46,6 +46,22 @@ declare function makeArrayProp<T>(): {
     type: PropType<T[]>;
     default(): T[];
 };
+declare function makeStringProp(): {
+    type: StringConstructor;
+    required: true;
+};
+declare function makeStringProp(arg0: string): {
+    type: StringConstructor;
+    default: string;
+};
+declare function makeNumberProp(): {
+    type: NumberConstructor;
+    required: true;
+};
+declare function makeNumberProp(arg0: number): {
+    type: NumberConstructor;
+    default: number;
+};
 
 declare function useHandle(fn: Fn<Fn>): Fn;
 
@@ -57,4 +73,4 @@ declare function useObjectUrl(obj: MayBeRef<unknown>): {
     readonly destory: () => void;
 } & readonly [vue.Ref<string>, () => void];
 
-export { PromiseHook, makeArrayProp, makeObjectProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { PromiseHook, makeArrayProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };

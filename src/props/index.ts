@@ -20,3 +20,23 @@ export function makeArrayProp<T> (required?: boolean) : unknown {
     default: required ? undefined : () => [],
   }
 }
+
+export function makeStringProp () : { type: StringConstructor, required: true }
+export function makeStringProp (arg0: string) : { type: StringConstructor, default: string }
+export function makeStringProp (arg0?: string) : unknown {
+  return {
+    type: String,
+    required: arg0 === undefined,
+    default: arg0,
+  }
+}
+
+export function makeNumberProp () : { type: NumberConstructor, required: true }
+export function makeNumberProp (arg0: number) : { type: NumberConstructor, default: number }
+export function makeNumberProp (arg0?: number) : unknown {
+  return {
+    type: Number,
+    required: arg0 === undefined,
+    default: arg0,
+  }
+}
