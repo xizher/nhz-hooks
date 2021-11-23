@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/xizher/nhz-hooks#readme",
   "dependencies": {
-    "vue": "^3.2.10",
+    "vue": "^3.2.3",
     "@vueuse/core": "^6.6.1"
   },
   "devDependencies": {
