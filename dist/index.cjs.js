@@ -113,7 +113,9 @@ function useListener(target, type, callback) {
 
 function whenTruly(source, callback) {
     let stop = null;
-    vue.onScopeDispose(() => stop?.());
+    if (vue.getCurrentScope()) {
+        vue.onScopeDispose(() => stop?.());
+    }
     return new Promise(resolve => {
         stop = vue.watch(source, val => {
             if (!isNullable(val)) {

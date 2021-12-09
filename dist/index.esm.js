@@ -1,4 +1,4 @@
-import { unref, watchEffect, onScopeDispose, watch, reactive, computed, toRefs, ref } from 'vue';
+import { unref, watchEffect, onScopeDispose, getCurrentScope, watch, reactive, computed, toRefs, ref } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -109,7 +109,9 @@ function useListener(target, type, callback) {
 
 function whenTruly(source, callback) {
     let stop = null;
-    onScopeDispose(() => stop?.());
+    if (getCurrentScope()) {
+        onScopeDispose(() => stop?.());
+    }
     return new Promise(resolve => {
         stop = watch(source, val => {
             if (!isNullable(val)) {
