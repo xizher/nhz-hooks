@@ -12,7 +12,7 @@ declare function useInterval(callback: MayBeRef<Fn>, ms?: MayBeRef<number>): {
     readonly stop: () => void | undefined;
 } & readonly [() => void | undefined];
 
-declare function useListener(target: MayBeRef<Document | Element>, type: MayBeRef<string>, callback: MayBeRef<Fn>): {
+declare function useListener(target: MayBeRef<Document | Element>, type: MayBeRef<string>, callback: MayBeRef<EventListenerOrEventListenerObject>): {
     readonly stop: () => void | undefined;
 } & readonly [() => void | undefined];
 
