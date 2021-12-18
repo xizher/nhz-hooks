@@ -40,3 +40,13 @@ export function makeNumberProp (arg0?: number) : unknown {
     default: arg0,
   }
 }
+
+export function makeFunctionProp<T extends Function> (arg0: true) : { type: PropType<T>, required: true }
+export function makeFunctionProp<T extends Function> (arg0: T) : { type: PropType<T>, default () : T }
+export function makeFunctionProp<T extends Function> (arg0: T | true) : unknown {
+  return {
+    type: Function as PropType<T>,
+    required: typeof arg0 === 'boolean' ? arg0 : undefined,
+    default: typeof arg0 === 'boolean' ? undefined : () => arg0,
+  }
+}

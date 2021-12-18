@@ -62,6 +62,14 @@ declare function makeNumberProp(arg0: number): {
     type: NumberConstructor;
     default: number;
 };
+declare function makeFunctionProp<T extends Function>(arg0: true): {
+    type: PropType<T>;
+    required: true;
+};
+declare function makeFunctionProp<T extends Function>(arg0: T): {
+    type: PropType<T>;
+    default(): T;
+};
 
 declare function useHandle(fn: Fn<Fn>): Fn;
 
@@ -73,4 +81,4 @@ declare function useObjectUrl(obj: MayBeRef<unknown>): {
     readonly destory: () => void;
 } & readonly [vue.Ref<string>, () => void];
 
-export { PromiseHook, makeArrayProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { PromiseHook, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };

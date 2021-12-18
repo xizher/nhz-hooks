@@ -188,6 +188,13 @@ function makeNumberProp(arg0) {
         default: arg0,
     };
 }
+function makeFunctionProp(arg0) {
+    return {
+        type: Function,
+        required: typeof arg0 === 'boolean' ? arg0 : undefined,
+        default: typeof arg0 === 'boolean' ? undefined : () => arg0,
+    };
+}
 
 function useHandle(fn) {
     const stop = fn();
@@ -235,4 +242,4 @@ function useObjectUrl(obj) {
     return makeDestructurable({ url, destory }, [url, destory]);
 }
 
-export { makeArrayProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };

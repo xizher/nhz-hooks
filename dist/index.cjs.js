@@ -192,6 +192,13 @@ function makeNumberProp(arg0) {
         default: arg0,
     };
 }
+function makeFunctionProp(arg0) {
+    return {
+        type: Function,
+        required: typeof arg0 === 'boolean' ? arg0 : undefined,
+        default: typeof arg0 === 'boolean' ? undefined : () => arg0,
+    };
+}
 
 function useHandle(fn) {
     const stop = fn();
@@ -240,6 +247,7 @@ function useObjectUrl(obj) {
 }
 
 exports.makeArrayProp = makeArrayProp;
+exports.makeFunctionProp = makeFunctionProp;
 exports.makeNumberProp = makeNumberProp;
 exports.makeObjectProp = makeObjectProp;
 exports.makeStringProp = makeStringProp;
