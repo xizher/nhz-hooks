@@ -130,34 +130,19 @@ function usePromise(promise, initialValue) {
         error: null,
         success: computed(() => state.loaded && !state.error)
     });
-    watchEffect(() => {
+    const execute = async () => {
+        state.loaded = false;
+        state.error = null;
         const _promise = get(promise);
-        if (typeof _promise === 'function') {
-            _promise()
-                .then(res => {
-                state.result = res;
-                // state.loaded = true
-            })
-                .catch(err => {
-                state.error = err;
-                // state.loaded = true
-            })
-                .finally(() => state.loaded = true); // sth. wrong
-        }
-        else {
-            _promise
-                .then(res => {
-                state.result = res;
-                // state.loaded = true
-            })
-                .catch(err => {
-                state.error = err;
-                // state.loaded = true
-            })
-                .finally(() => state.loaded = true);
-        }
-    });
-    return toRefs(state);
+        const ret = (typeof _promise === 'function'
+            ? _promise() : _promise)
+            .then(res => state.result = res)
+            .catch(err => state.error = err)
+            .finally(() => state.loaded = true);
+        return await ret;
+    };
+    watch(promise, () => execute(), { immediate: true });
+    return { ...toRefs(state), execute };
 }
 
 function makeObjectProp(arg0) {

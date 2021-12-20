@@ -24,7 +24,13 @@ interface PromiseHook<T> {
     error: unknown;
     success: boolean;
 }
-declare function usePromise<T>(promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, initialValue: T): vue.ToRefs<PromiseHook<T>>;
+declare function usePromise<T>(promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, initialValue: T): {
+    execute: () => Promise<any>;
+    result: vue.ToRef<T>;
+    loaded: vue.Ref<boolean>;
+    error: vue.Ref<unknown>;
+    success: vue.Ref<boolean>;
+};
 
 declare function makeObjectProp<T>(arg0: true): {
     type: PropType<T>;
