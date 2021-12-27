@@ -128,6 +128,7 @@ function whenTruly(source, callback) {
 }
 
 function usePromise(promise, initialValue) {
+    promise = vue.ref(promise);
     const state = vue.reactive({
         result: initialValue,
         loaded: false,

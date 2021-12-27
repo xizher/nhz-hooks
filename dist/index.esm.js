@@ -1,4 +1,4 @@
-import { unref, watchEffect, onScopeDispose, getCurrentScope, watch, reactive, computed, toRefs, ref } from 'vue';
+import { unref, watchEffect, onScopeDispose, getCurrentScope, watch, ref, reactive, computed, toRefs } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -124,6 +124,7 @@ function whenTruly(source, callback) {
 }
 
 function usePromise(promise, initialValue) {
+    promise = ref(promise);
     const state = reactive({
         result: initialValue,
         loaded: false,
