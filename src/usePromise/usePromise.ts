@@ -1,6 +1,6 @@
 import { Fn } from '@fssgis/utils'
 import { get, MayBeRef } from '../base'
-import { reactive, computed, toRefs, watch, ref } from 'vue'
+import { computed, toRefs, watch, ref, shallowReactive, ToRefs } from 'vue'
 
 export interface PromiseHook<T> {
   result: T
@@ -12,12 +12,12 @@ export interface PromiseHook<T> {
 export function usePromise <T> (promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, initialValue: T) {
   promise = ref(promise)
 
-  const state = reactive({
+  const state = shallowReactive({
     result: initialValue,
     loaded: false,
     error: null,
     success: computed<boolean>(() => state.loaded && !state.error)
-  }) as PromiseHook<T>
+  })
   const execute = async () => {
     state.loaded = false
     state.error = null
@@ -30,7 +30,7 @@ export function usePromise <T> (promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, 
     return await ret
   }
   watch(promise, () => execute(), { immediate: true })
-  return { ...toRefs(state), execute }
+  return { ...toRefs(state) as ToRefs<PromiseHook<T>>, execute }
 }
 
 export default usePromise

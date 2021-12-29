@@ -1,4 +1,4 @@
-import { unref, watchEffect, onScopeDispose, getCurrentScope, watch, ref, reactive, computed, toRefs } from 'vue';
+import { unref, watchEffect, onScopeDispose, getCurrentScope, watch, ref, shallowReactive, computed, toRefs } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -125,7 +125,7 @@ function whenTruly(source, callback) {
 
 function usePromise(promise, initialValue) {
     promise = ref(promise);
-    const state = reactive({
+    const state = shallowReactive({
         result: initialValue,
         loaded: false,
         error: null,
