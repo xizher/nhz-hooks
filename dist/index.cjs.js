@@ -152,14 +152,14 @@ function usePromise(promise, initialValue) {
 
 function makeObjectProp(arg0) {
     return {
-        type: Object,
+        type: null,
         required: typeof arg0 === 'boolean' ? arg0 : undefined,
         default: typeof arg0 === 'boolean' ? undefined : () => arg0,
     };
 }
 function makeArrayProp(required) {
     return {
-        type: Array,
+        type: null,
         required: required,
         default: required ? undefined : () => [],
     };
