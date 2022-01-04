@@ -1,3 +1,4 @@
+import { Nullable } from '@fssgis/utils'
 import { PropType } from 'vue'
 
 export function makeObjectProp<T> (arg0: true) : { type: PropType<T>, required: true }
@@ -22,8 +23,8 @@ export function makeArrayProp<T> (required?: boolean) : unknown {
 }
 
 export function makeStringProp () : { type: StringConstructor, required: true }
-export function makeStringProp (arg0: string) : { type: StringConstructor, default: string }
-export function makeStringProp (arg0?: string) : unknown {
+export function makeStringProp (arg0: Nullable<string>) : { type: StringConstructor, default: string }
+export function makeStringProp (arg0?: Nullable<string>) : unknown {
   return {
     type: String,
     required: arg0 === undefined,
@@ -32,8 +33,8 @@ export function makeStringProp (arg0?: string) : unknown {
 }
 
 export function makeNumberProp () : { type: NumberConstructor, required: true }
-export function makeNumberProp (arg0: number) : { type: NumberConstructor, default: number }
-export function makeNumberProp (arg0?: number) : unknown {
+export function makeNumberProp (arg0: Nullable<number>) : { type: NumberConstructor, default: number }
+export function makeNumberProp (arg0?: Nullable<number>) : unknown {
   return {
     type: Number,
     required: arg0 === undefined,

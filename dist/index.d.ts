@@ -56,7 +56,7 @@ declare function makeStringProp(): {
     type: StringConstructor;
     required: true;
 };
-declare function makeStringProp(arg0: string): {
+declare function makeStringProp(arg0: Nullable<string>): {
     type: StringConstructor;
     default: string;
 };
@@ -64,7 +64,7 @@ declare function makeNumberProp(): {
     type: NumberConstructor;
     required: true;
 };
-declare function makeNumberProp(arg0: number): {
+declare function makeNumberProp(arg0: Nullable<number>): {
     type: NumberConstructor;
     default: number;
 };
