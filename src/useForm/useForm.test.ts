@@ -1,6 +1,7 @@
-import { isNullable } from '@fssgis/utils'
+import { formatString, isNullable } from '@fssgis/utils'
 import { nextTick } from 'vue'
-import { RuleMinLength, RuleReqiured, useForm } from './useForm'
+import { RuleMaxLength } from '.'
+import { RuleMinLength, RuleReqiured, useForm, RuleMax, RuleMin } from './useForm'
 
 test('useForm(): 字段值的状态同步', async () => {
   const { fieldValues, makeField } = useForm<{
@@ -132,7 +133,6 @@ test('useForm(): 规则【RuleReqiured】的实现', async () => {
   expect(usr.error).toBe(RuleReqiured.errorMsg)
 })
 
-
 test('useForm(): 规则【RuleMinLength】的实现', async () => {
   const { makeField, makeSubmit } = useForm<{
     usr: string
@@ -140,11 +140,60 @@ test('useForm(): 规则【RuleMinLength】的实现', async () => {
   const usr = makeField('usr', [RuleMinLength(3)])
   const submit = makeSubmit(() => void 0)
   await submit()
-  expect(usr.error).toBe(RuleMinLength.errorMsg)
+  expect(usr.error).toBe(formatString(RuleMinLength.errorMsg, 3))
   usr.value = '1234'
   await nextTick()
   expect(usr.error).toBeUndefined()
   usr.value = '1'
   await nextTick()
-  expect(usr.error).toBe(RuleMinLength.errorMsg)
+  expect(usr.error).toBe(formatString(RuleMinLength.errorMsg, 3))
+})
+
+test('useForm(): 规则【RuleMaxLength】的实现', async () => {
+  const { makeField, makeSubmit } = useForm<{
+    usr: string
+  }>()
+  const usr = makeField('usr', [RuleMaxLength(3)])
+  const submit = makeSubmit(() => void 0)
+  await submit()
+  expect(usr.error).toBe(formatString(RuleMaxLength.errorMsg, 3))
+  usr.value = '1'
+  await nextTick()
+  expect(usr.error).toBeUndefined()
+  usr.value = '1234'
+  await nextTick()
+  expect(usr.error).toBe(formatString(RuleMaxLength.errorMsg, 3))
+})
+
+test('useForm(): 规则【RuleMax】的实现', async () => {
+  const { makeField, makeSubmit } = useForm<{
+    num: number
+  }>()
+  const num = makeField('num', [RuleMax(100)])
+  const submit = makeSubmit(() => void 0)
+  await submit()
+  expect(num.error).toBe(formatString(RuleMax.errorMsg, 100))
+  num.value = 0
+  await nextTick()
+  expect(num.error).toBeUndefined()
+  num.value = 101
+  await nextTick()
+  expect(num.error).toBe(formatString(RuleMax.errorMsg, 100))
+})
+
+
+test('useForm(): 规则【RuleMin】的实现', async () => {
+  const { makeField, makeSubmit } = useForm<{
+    num: number
+  }>()
+  const num = makeField('num', [RuleMin(1)])
+  const submit = makeSubmit(() => void 0)
+  await submit()
+  expect(num.error).toBe(formatString(RuleMin.errorMsg, 1))
+  num.value = 1
+  await nextTick()
+  expect(num.error).toBeUndefined()
+  num.value = 0
+  await nextTick()
+  expect(num.error).toBe(formatString(RuleMin.errorMsg, 1))
 })

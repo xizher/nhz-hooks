@@ -1,28 +1,5 @@
-import { Fn, isNullable } from '@fssgis/utils'
+import { Fn, isNullable, formatString } from '@fssgis/utils'
 import { watch, reactive, toRef, shallowReactive } from 'vue'
-
-RuleReqiured.errorMsg = 'required'
-export function RuleReqiured (errorMsg = RuleReqiured.errorMsg) : RuleType {
-  return val => new Promise<void>((resolve, reject) => {
-    if (typeof val === 'string' && !val) {
-      reject(errorMsg)
-    } else if (isNullable(val)) {
-      reject(errorMsg)
-    }
-    resolve()
-  })
-}
-
-RuleMinLength.errorMsg = 'TODO' // TODO
-export function RuleMinLength (num: number, errorMsg = RuleMinLength.errorMsg) : RuleType {
-  return val => new Promise((resolve, reject) => {
-    if (isNullable(val) || String(val).length < num) {
-      reject(errorMsg)
-    } else {
-      resolve()
-    }
-  })
-}
 
 type ValidateMode = 'change' | 'submit'
 
@@ -107,4 +84,60 @@ export function useForm <T extends object> ({
     errors,
     validators,
   }
+}
+
+RuleReqiured.errorMsg = 'required'
+export function RuleReqiured (errorMsg = RuleReqiured.errorMsg) : RuleType {
+  return val => new Promise<void>((resolve, reject) => {
+    if (typeof val === 'string' && !val) {
+      reject(errorMsg)
+    } else if (isNullable(val)) {
+      reject(errorMsg)
+    }
+    resolve()
+  })
+}
+
+RuleMinLength.errorMsg = 'length must ≥ {0}'
+export function RuleMinLength (num: number, errorMsg = formatString(RuleMinLength.errorMsg, num)) : RuleType {
+  return val => new Promise((resolve, reject) => {
+    if (isNullable(val) || String(val).length < num) {
+      reject(errorMsg)
+    } else {
+      resolve()
+    }
+  })
+}
+
+RuleMaxLength.errorMsg = 'length must ≤ {0}'
+export function RuleMaxLength (num: number, errorMsg = formatString(RuleMaxLength.errorMsg, num)) : RuleType {
+  return val => new Promise((resolve, reject) => {
+    if (isNullable(val) || String(val).length > num) {
+      reject(errorMsg)
+    } else {
+      resolve()
+    }
+  })
+}
+
+RuleMax.errorMsg = 'number must ≤ {0}'
+export function RuleMax (num: number, errorMsg = formatString(RuleMax.errorMsg, num)) : RuleType {
+  return val => new Promise((resolve, reject) => {
+    if (isNullable(val) || Number(val) > num) {
+      reject(errorMsg)
+    } else {
+      resolve()
+    }
+  })
+}
+
+RuleMin.errorMsg = 'number must ≥ {0}'
+export function RuleMin (num: number, errorMsg = formatString(RuleMin.errorMsg, num)) : RuleType {
+  return val => new Promise((resolve, reject) => {
+    if (isNullable(val) || Number(val) < num) {
+      reject(errorMsg)
+    } else {
+      resolve()
+    }
+  })
 }

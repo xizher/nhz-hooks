@@ -87,14 +87,6 @@ declare function useObjectUrl(obj: MayBeRef<unknown>): {
     readonly destory: () => void;
 } & readonly [vue.Ref<string>, () => void];
 
-declare function RuleReqiured(errorMsg?: string): RuleType;
-declare namespace RuleReqiured {
-    var errorMsg: string;
-}
-declare function RuleMinLength(num: number, errorMsg?: string): RuleType;
-declare namespace RuleMinLength {
-    var errorMsg: string;
-}
 declare type ValidateMode = 'change' | 'submit';
 declare type FromOptions<T> = {
     defaultValues?: Partial<T>;
@@ -116,5 +108,25 @@ declare function useForm<T extends object>({ defaultValues, validateMode, }?: Fr
     errors: vue.ShallowReactive<Errors>;
     validators: Record<string, RuleType<unknown>[]>;
 };
+declare function RuleReqiured(errorMsg?: string): RuleType;
+declare namespace RuleReqiured {
+    var errorMsg: string;
+}
+declare function RuleMinLength(num: number, errorMsg?: string): RuleType;
+declare namespace RuleMinLength {
+    var errorMsg: string;
+}
+declare function RuleMaxLength(num: number, errorMsg?: string): RuleType;
+declare namespace RuleMaxLength {
+    var errorMsg: string;
+}
+declare function RuleMax(num: number, errorMsg?: string): RuleType;
+declare namespace RuleMax {
+    var errorMsg: string;
+}
+declare function RuleMin(num: number, errorMsg?: string): RuleType;
+declare namespace RuleMin {
+    var errorMsg: string;
+}
 
-export { Errors, PromiseHook, RuleMinLength, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { Errors, PromiseHook, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };

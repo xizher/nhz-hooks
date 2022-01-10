@@ -32,6 +32,12 @@ function makeDestructurable(obj, arr) {
     });
     return clone;
 }
+function formatString(str, ...strs) {
+    return str.replace(/{([0-9]+)}/g, (match, index) => {
+        // check if the argument is present
+        return typeof strs[index] === 'undefined' ? match : strs[index];
+    });
+}
 
 /**
  * like setInterval
@@ -228,29 +234,6 @@ function useObjectUrl(obj) {
     return makeDestructurable({ url, destory }, [url, destory]);
 }
 
-RuleReqiured.errorMsg = 'required';
-function RuleReqiured(errorMsg = RuleReqiured.errorMsg) {
-    return val => new Promise((resolve, reject) => {
-        if (typeof val === 'string' && !val) {
-            reject(errorMsg);
-        }
-        else if (isNullable(val)) {
-            reject(errorMsg);
-        }
-        resolve();
-    });
-}
-RuleMinLength.errorMsg = 'TODO'; // TODO
-function RuleMinLength(num, errorMsg = RuleMinLength.errorMsg) {
-    return val => new Promise((resolve, reject) => {
-        if (isNullable(val) || String(val).length < num) {
-            reject(errorMsg);
-        }
-        else {
-            resolve();
-        }
-    });
-}
 function useForm({ defaultValues = {}, validateMode = 'change', } = {}) {
     const fieldValues = shallowReactive(defaultValues);
     const errors = shallowReactive({});
@@ -312,5 +295,61 @@ function useForm({ defaultValues = {}, validateMode = 'change', } = {}) {
         validators,
     };
 }
+RuleReqiured.errorMsg = 'required';
+function RuleReqiured(errorMsg = RuleReqiured.errorMsg) {
+    return val => new Promise((resolve, reject) => {
+        if (typeof val === 'string' && !val) {
+            reject(errorMsg);
+        }
+        else if (isNullable(val)) {
+            reject(errorMsg);
+        }
+        resolve();
+    });
+}
+RuleMinLength.errorMsg = 'length must ≥ {0}';
+function RuleMinLength(num, errorMsg = formatString(RuleMinLength.errorMsg, num)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || String(val).length < num) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
+RuleMaxLength.errorMsg = 'length must ≤ {0}';
+function RuleMaxLength(num, errorMsg = formatString(RuleMaxLength.errorMsg, num)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || String(val).length > num) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
+RuleMax.errorMsg = 'number must ≤ {0}';
+function RuleMax(num, errorMsg = formatString(RuleMax.errorMsg, num)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || Number(val) > num) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
+RuleMin.errorMsg = 'number must ≥ {0}';
+function RuleMin(num, errorMsg = formatString(RuleMin.errorMsg, num)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || Number(val) < num) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
 
-export { RuleMinLength, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
