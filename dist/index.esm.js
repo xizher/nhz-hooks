@@ -1,4 +1,4 @@
-import { unref, watchEffect, onScopeDispose, getCurrentScope, watch, ref, shallowReactive, computed, toRefs } from 'vue';
+import { unref, watchEffect, onScopeDispose, getCurrentScope, watch, ref, shallowReactive, computed, toRefs, reactive, toRef } from 'vue';
 
 /**
  * 判断变量是否为 object 类型
@@ -228,4 +228,89 @@ function useObjectUrl(obj) {
     return makeDestructurable({ url, destory }, [url, destory]);
 }
 
-export { makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+RuleReqiured.errorMsg = 'required';
+function RuleReqiured(errorMsg = RuleReqiured.errorMsg) {
+    return val => new Promise((resolve, reject) => {
+        if (typeof val === 'string' && !val) {
+            reject(errorMsg);
+        }
+        else if (isNullable(val)) {
+            reject(errorMsg);
+        }
+        resolve();
+    });
+}
+RuleMinLength.errorMsg = 'TODO'; // TODO
+function RuleMinLength(num, errorMsg = RuleMinLength.errorMsg) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || String(val).length < num) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
+function useForm({ defaultValues = {}, validateMode = 'change', } = {}) {
+    const fieldValues = shallowReactive(defaultValues);
+    const errors = shallowReactive({});
+    const validators = {};
+    const validateField = async (name) => {
+        try {
+            const value = fieldValues[name];
+            const rules = validators[name] ?? [];
+            for (const rule of rules) {
+                await rule(value);
+            }
+            errors[name] = undefined;
+            return true;
+        }
+        catch (e) {
+            errors[name] = e;
+            return false;
+        }
+    };
+    const validateFields = async () => {
+        let ret = true;
+        for (const name in fieldValues) {
+            if (!await validateField(name)) {
+                ret = false;
+            }
+        }
+        return ret;
+    };
+    const makeField = (name, rules = []) => {
+        validators[name] = rules;
+        // @ts-ignore
+        fieldValues[name] ?? (fieldValues[name] = undefined);
+        // @ts-ignore
+        errors[name] ?? (errors[name] = undefined);
+        const field = reactive({
+            value: toRef(fieldValues, name),
+            error: toRef(errors, name)
+        });
+        if (validateMode === 'change') {
+            watch(() => field.value, () => validateField(name));
+        }
+        return field;
+    };
+    const makeSubmit = (fn) => {
+        return async () => {
+            const result = await validateFields();
+            if (result) {
+                await fn(fieldValues);
+            }
+        };
+    };
+    return {
+        fieldValues,
+        makeSubmit,
+        makeField,
+        validateField,
+        validateFields,
+        errors,
+        validators,
+    };
+}
+
+export { RuleMinLength, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };

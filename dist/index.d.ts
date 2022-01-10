@@ -87,4 +87,34 @@ declare function useObjectUrl(obj: MayBeRef<unknown>): {
     readonly destory: () => void;
 } & readonly [vue.Ref<string>, () => void];
 
-export { PromiseHook, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+declare function RuleReqiured(errorMsg?: string): RuleType;
+declare namespace RuleReqiured {
+    var errorMsg: string;
+}
+declare function RuleMinLength(num: number, errorMsg?: string): RuleType;
+declare namespace RuleMinLength {
+    var errorMsg: string;
+}
+declare type ValidateMode = 'change' | 'submit';
+declare type FromOptions<T> = {
+    defaultValues?: Partial<T>;
+    validateMode?: ValidateMode;
+};
+declare type Errors = {
+    [field: string]: string | undefined;
+};
+declare type RuleType<T = unknown> = (val: T) => Promise<void>;
+declare function useForm<T extends object>({ defaultValues, validateMode, }?: FromOptions<T>): {
+    fieldValues: T;
+    makeSubmit: (fn: (data: T) => void) => Fn<Promise<void>>;
+    makeField: <K extends keyof T>(name: K, rules?: RuleType<T[K]>[]) => {
+        value: T[keyof T];
+        error: string;
+    };
+    validateField: (name: keyof T) => Promise<boolean>;
+    validateFields: () => Promise<boolean>;
+    errors: vue.ShallowReactive<Errors>;
+    validators: Record<string, RuleType<unknown>[]>;
+};
+
+export { Errors, PromiseHook, RuleMinLength, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
