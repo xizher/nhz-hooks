@@ -105,7 +105,9 @@ declare function useForm<T extends object>({ defaultValues, validateMode, }?: Fr
     };
     validateField: (name: keyof T) => Promise<boolean>;
     validateFields: () => Promise<boolean>;
-    errors: vue.ShallowReactive<Errors>;
+    errors: {
+        [x: string]: string | undefined;
+    };
     validators: Record<string, RuleType<unknown>[]>;
 };
 declare function RuleReqiured(errorMsg?: string): RuleType;

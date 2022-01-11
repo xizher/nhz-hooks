@@ -235,8 +235,8 @@ function useObjectUrl(obj) {
 }
 
 function useForm({ defaultValues = {}, validateMode = 'change', } = {}) {
-    const fieldValues = shallowReactive(defaultValues);
-    const errors = shallowReactive({});
+    const fieldValues = reactive(defaultValues);
+    const errors = reactive({});
     const validators = {};
     const validateField = async (name) => {
         try {

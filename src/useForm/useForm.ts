@@ -1,5 +1,5 @@
 import { Fn, isNullable, formatString } from '@fssgis/utils'
-import { watch, reactive, toRef, shallowReactive } from 'vue'
+import { watch, reactive, toRef } from 'vue'
 
 type ValidateMode = 'change' | 'submit'
 
@@ -18,8 +18,8 @@ export function useForm <T extends object> ({
   defaultValues = {} as T,
   validateMode = 'change',
 } : FromOptions<T> = {}) {
-  const fieldValues = shallowReactive(defaultValues) as T
-  const errors = shallowReactive<Errors>({})
+  const fieldValues = reactive(defaultValues) as T
+  const errors = reactive<Errors>({})
   const validators : Record<string, RuleType[]> = {}
 
   const validateField = async (name: keyof T) => {

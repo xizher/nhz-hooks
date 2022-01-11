@@ -239,8 +239,8 @@ function useObjectUrl(obj) {
 }
 
 function useForm({ defaultValues = {}, validateMode = 'change', } = {}) {
-    const fieldValues = vue.shallowReactive(defaultValues);
-    const errors = vue.shallowReactive({});
+    const fieldValues = vue.reactive(defaultValues);
+    const errors = vue.reactive({});
     const validators = {};
     const validateField = async (name) => {
         try {
