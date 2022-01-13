@@ -351,5 +351,27 @@ function RuleMin(num, errorMsg = formatString(RuleMin.errorMsg, num)) {
         }
     });
 }
+RuleLengthRange.errorMsg = 'length must ≥ {0} and ≤ {1}';
+function RuleLengthRange(min, max, errorMsg = formatString(RuleLengthRange.errorMsg, min, max)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || String(val).length < min || String(val).length > max) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
+RuleRange.errorMsg = 'number must ≥ {0} and ≤ {1}';
+function RuleRange(min, max, errorMsg = formatString(RuleRange.errorMsg, min, max)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || Number(val) < min || Number(val) > max) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
 
-export { RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };

@@ -130,5 +130,13 @@ declare function RuleMin(num: number, errorMsg?: string): RuleType;
 declare namespace RuleMin {
     var errorMsg: string;
 }
+declare function RuleLengthRange(min: number, max: number, errorMsg?: string): RuleType;
+declare namespace RuleLengthRange {
+    var errorMsg: string;
+}
+declare function RuleRange(min: number, max: number, errorMsg?: string): RuleType;
+declare namespace RuleRange {
+    var errorMsg: string;
+}
 
-export { Errors, PromiseHook, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { Errors, PromiseHook, RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };

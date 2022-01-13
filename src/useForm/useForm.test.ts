@@ -1,7 +1,6 @@
 import { formatString, isNullable } from '@fssgis/utils'
 import { nextTick } from 'vue'
-import { RuleMaxLength } from '.'
-import { RuleMinLength, RuleReqiured, useForm, RuleMax, RuleMin } from './useForm'
+import { RuleMinLength, RuleReqiured, useForm, RuleMax, RuleMin, RuleLengthRange, RuleRange, RuleMaxLength } from './useForm'
 
 test('useForm(): 字段值的状态同步', async () => {
   const { fieldValues, makeField } = useForm<{
@@ -181,7 +180,6 @@ test('useForm(): 规则【RuleMax】的实现', async () => {
   expect(num.error).toBe(formatString(RuleMax.errorMsg, 100))
 })
 
-
 test('useForm(): 规则【RuleMin】的实现', async () => {
   const { makeField, makeSubmit } = useForm<{
     num: number
@@ -196,4 +194,48 @@ test('useForm(): 规则【RuleMin】的实现', async () => {
   num.value = 0
   await nextTick()
   expect(num.error).toBe(formatString(RuleMin.errorMsg, 1))
+})
+
+test('useForm(): 规则【RuleLengthRange】的实现', async () => {
+  const { makeField, makeSubmit } = useForm<{
+    str: string
+  }>()
+  const str = makeField('str', [RuleLengthRange(3, 6)])
+  const submit = makeSubmit(() => void 0)
+  await submit()
+  expect(str.error).toBe(formatString(RuleLengthRange.errorMsg, 3, 6))
+  str.value = '1234'
+  await nextTick()
+  expect(str.error).toBeUndefined()
+  str.value = '12'
+  await nextTick()
+  expect(str.error).toBe(formatString(RuleLengthRange.errorMsg, 3, 6))
+  str.value = '1234'
+  await nextTick()
+  expect(str.error).toBeUndefined()
+  str.value = 'aaaaaaa'
+  await nextTick()
+  expect(str.error).toBe(formatString(RuleLengthRange.errorMsg, 3, 6))
+})
+
+test('useForm(): 规则【RuleRange】的实现', async () => {
+  const { makeField, makeSubmit } = useForm<{
+    num: number
+  }>()
+  const num = makeField('num', [RuleRange(3, 6)])
+  const submit = makeSubmit(() => void 0)
+  await submit()
+  expect(num.error).toBe(formatString(RuleRange.errorMsg, 3, 6))
+  num.value = 4
+  await nextTick()
+  expect(num.error).toBeUndefined()
+  num.value = 2
+  await nextTick()
+  expect(num.error).toBe(formatString(RuleRange.errorMsg, 3, 6))
+  num.value = 4
+  await nextTick()
+  expect(num.error).toBeUndefined()
+  num.value = 7
+  await nextTick()
+  expect(num.error).toBe(formatString(RuleRange.errorMsg, 3, 6))
 })

@@ -355,11 +355,35 @@ function RuleMin(num, errorMsg = formatString(RuleMin.errorMsg, num)) {
         }
     });
 }
+RuleLengthRange.errorMsg = 'length must ≥ {0} and ≤ {1}';
+function RuleLengthRange(min, max, errorMsg = formatString(RuleLengthRange.errorMsg, min, max)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || String(val).length < min || String(val).length > max) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
+RuleRange.errorMsg = 'number must ≥ {0} and ≤ {1}';
+function RuleRange(min, max, errorMsg = formatString(RuleRange.errorMsg, min, max)) {
+    return val => new Promise((resolve, reject) => {
+        if (isNullable(val) || Number(val) < min || Number(val) > max) {
+            reject(errorMsg);
+        }
+        else {
+            resolve();
+        }
+    });
+}
 
+exports.RuleLengthRange = RuleLengthRange;
 exports.RuleMax = RuleMax;
 exports.RuleMaxLength = RuleMaxLength;
 exports.RuleMin = RuleMin;
 exports.RuleMinLength = RuleMinLength;
+exports.RuleRange = RuleRange;
 exports.RuleReqiured = RuleReqiured;
 exports.makeArrayProp = makeArrayProp;
 exports.makeFunctionProp = makeFunctionProp;

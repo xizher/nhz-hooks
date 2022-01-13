@@ -141,3 +141,25 @@ export function RuleMin (num: number, errorMsg = formatString(RuleMin.errorMsg, 
     }
   })
 }
+
+RuleLengthRange.errorMsg = 'length must ≥ {0} and ≤ {1}'
+export function RuleLengthRange (min: number, max: number, errorMsg = formatString(RuleLengthRange.errorMsg, min, max)) : RuleType {
+  return val => new Promise((resolve, reject) => {
+    if (isNullable(val) || String(val).length < min || String(val).length > max) {
+      reject(errorMsg)
+    } else {
+      resolve()
+    }
+  })
+}
+
+RuleRange.errorMsg = 'number must ≥ {0} and ≤ {1}'
+export function RuleRange (min: number, max: number, errorMsg = formatString(RuleRange.errorMsg, min, max)) : RuleType {
+  return val => new Promise((resolve, reject) => {
+    if (isNullable(val) || Number(val) < min || Number(val) > max) {
+      reject(errorMsg)
+    } else {
+      resolve()
+    }
+  })
+}
