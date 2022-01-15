@@ -110,6 +110,9 @@ declare function useForm<T extends object>({ defaultValues, validateMode, }?: Fr
     };
     validators: Record<string, RuleType<unknown>[]>;
 };
+declare function validatorsToVxeRules(validators: Record<string, RuleType[]>): Record<string, {
+    validator: Function;
+}[]>;
 declare function RuleReqiured(errorMsg?: string): RuleType;
 declare namespace RuleReqiured {
     var errorMsg: string;
@@ -139,4 +142,4 @@ declare namespace RuleRange {
     var errorMsg: string;
 }
 
-export { Errors, PromiseHook, RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { Errors, PromiseHook, RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, validatorsToVxeRules, whenTruly };

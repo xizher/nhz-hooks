@@ -295,6 +295,23 @@ function useForm({ defaultValues = {}, validateMode = 'change', } = {}) {
         validators,
     };
 }
+function validatorsToVxeRules(validators) {
+    const ret = {};
+    Object.entries(validators).forEach(([key, fns]) => {
+        const rules = fns.map(fn => ({
+            validator: async (arg0) => {
+                try {
+                    await fn(arg0.itemValue);
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+            }
+        }));
+        ret[key] = rules;
+    });
+    return ret;
+}
 RuleReqiured.errorMsg = 'required';
 function RuleReqiured(errorMsg = RuleReqiured.errorMsg) {
     return val => new Promise((resolve, reject) => {
@@ -304,7 +321,9 @@ function RuleReqiured(errorMsg = RuleReqiured.errorMsg) {
         else if (isNullable(val)) {
             reject(errorMsg);
         }
-        resolve();
+        else {
+            resolve();
+        }
     });
 }
 RuleMinLength.errorMsg = 'length must ≥ {0}';
@@ -374,4 +393,4 @@ function RuleRange(min, max, errorMsg = formatString(RuleRange.errorMsg, min, ma
     });
 }
 
-export { RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, whenTruly };
+export { RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, validatorsToVxeRules, whenTruly };

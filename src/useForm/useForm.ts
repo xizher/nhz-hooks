@@ -86,6 +86,23 @@ export function useForm <T extends object> ({
   }
 }
 
+export function validatorsToVxeRules (validators: Record<string, RuleType[]>) : Record<string, { validator: Function }[]> {
+  const ret = {} as ReturnType<typeof validatorsToVxeRules>
+  Object.entries(validators).forEach(([key, fns]) => {
+    const rules = fns.map(fn => ({
+      validator: async (arg0: any) => { // eslint-disable-line
+        try {
+          await fn(arg0.itemValue)
+        } catch (e) {
+          throw new Error(e)
+        }
+      }
+    }))
+    ret[key] = rules
+  })
+  return ret
+}
+
 RuleReqiured.errorMsg = 'required'
 export function RuleReqiured (errorMsg = RuleReqiured.errorMsg) : RuleType {
   return val => new Promise<void>((resolve, reject) => {
@@ -93,8 +110,9 @@ export function RuleReqiured (errorMsg = RuleReqiured.errorMsg) : RuleType {
       reject(errorMsg)
     } else if (isNullable(val)) {
       reject(errorMsg)
+    } else {
+      resolve()
     }
-    resolve()
   })
 }
 

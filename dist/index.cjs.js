@@ -299,6 +299,23 @@ function useForm({ defaultValues = {}, validateMode = 'change', } = {}) {
         validators,
     };
 }
+function validatorsToVxeRules(validators) {
+    const ret = {};
+    Object.entries(validators).forEach(([key, fns]) => {
+        const rules = fns.map(fn => ({
+            validator: async (arg0) => {
+                try {
+                    await fn(arg0.itemValue);
+                }
+                catch (e) {
+                    throw new Error(e);
+                }
+            }
+        }));
+        ret[key] = rules;
+    });
+    return ret;
+}
 RuleReqiured.errorMsg = 'required';
 function RuleReqiured(errorMsg = RuleReqiured.errorMsg) {
     return val => new Promise((resolve, reject) => {
@@ -308,7 +325,9 @@ function RuleReqiured(errorMsg = RuleReqiured.errorMsg) {
         else if (isNullable(val)) {
             reject(errorMsg);
         }
-        resolve();
+        else {
+            resolve();
+        }
     });
 }
 RuleMinLength.errorMsg = 'length must ≥ {0}';
@@ -398,4 +417,5 @@ exports.useListener = useListener;
 exports.useObjectUrl = useObjectUrl;
 exports.usePromise = usePromise;
 exports.useTimeout = useTimeout;
+exports.validatorsToVxeRules = validatorsToVxeRules;
 exports.whenTruly = whenTruly;
