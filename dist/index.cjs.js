@@ -397,6 +397,34 @@ function RuleRange(min, max, errorMsg = formatString(RuleRange.errorMsg, min, ma
     });
 }
 
+function usePagination(source, { pageIndex = 0, pageSize = 20 } = {}) {
+    const pagination = vue.shallowReactive({
+        pageIndex,
+        pageSize,
+        total: 0,
+        data: []
+    });
+    vue.watchEffect(async () => {
+        const _source = get(source);
+        if (Array.isArray(_source)) {
+            const [startIndex, endIndex] = [
+                pagination.pageSize * pagination.pageIndex,
+                pagination.pageSize * (pagination.pageIndex + 1)
+            ];
+            pagination.data = _source.slice(startIndex, endIndex);
+            pagination.total = _source.length;
+        }
+        else {
+            pagination.data = await _source({
+                returnTotal: total => pagination.total = total,
+                pageSize: pagination.pageSize,
+                pageIndex: pagination.pageIndex,
+            });
+        }
+    });
+    return vue.toRefs(pagination);
+}
+
 exports.RuleLengthRange = RuleLengthRange;
 exports.RuleMax = RuleMax;
 exports.RuleMaxLength = RuleMaxLength;
@@ -415,6 +443,7 @@ exports.useHandle = useHandle;
 exports.useInterval = useInterval;
 exports.useListener = useListener;
 exports.useObjectUrl = useObjectUrl;
+exports.usePagination = usePagination;
 exports.usePromise = usePromise;
 exports.useTimeout = useTimeout;
 exports.validatorsToVxeRules = validatorsToVxeRules;

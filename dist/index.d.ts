@@ -142,4 +142,19 @@ declare namespace RuleRange {
     var errorMsg: string;
 }
 
-export { Errors, PromiseHook, RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, validatorsToVxeRules, whenTruly };
+declare type PaginationOptions = {
+    pageSize?: number;
+    pageIndex?: number;
+};
+declare function usePagination<T>(source: MayBeRef<T[] | ((options: {
+    returnTotal: (total: number) => void;
+    pageSize: number;
+    pageIndex: number;
+}) => Promise<T[]>)>, { pageIndex, pageSize }?: PaginationOptions): vue.ToRefs<vue.ShallowReactive<{
+    pageIndex: number;
+    pageSize: number;
+    total: number;
+    data: T[];
+}>>;
+
+export { Errors, PaginationOptions, PromiseHook, RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, RuleType, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePagination, usePromise, useTimeout, validatorsToVxeRules, whenTruly };

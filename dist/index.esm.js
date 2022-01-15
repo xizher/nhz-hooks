@@ -393,4 +393,32 @@ function RuleRange(min, max, errorMsg = formatString(RuleRange.errorMsg, min, ma
     });
 }
 
-export { RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePromise, useTimeout, validatorsToVxeRules, whenTruly };
+function usePagination(source, { pageIndex = 0, pageSize = 20 } = {}) {
+    const pagination = shallowReactive({
+        pageIndex,
+        pageSize,
+        total: 0,
+        data: []
+    });
+    watchEffect(async () => {
+        const _source = get(source);
+        if (Array.isArray(_source)) {
+            const [startIndex, endIndex] = [
+                pagination.pageSize * pagination.pageIndex,
+                pagination.pageSize * (pagination.pageIndex + 1)
+            ];
+            pagination.data = _source.slice(startIndex, endIndex);
+            pagination.total = _source.length;
+        }
+        else {
+            pagination.data = await _source({
+                returnTotal: total => pagination.total = total,
+                pageSize: pagination.pageSize,
+                pageIndex: pagination.pageIndex,
+            });
+        }
+    });
+    return toRefs(pagination);
+}
+
+export { RuleLengthRange, RuleMax, RuleMaxLength, RuleMin, RuleMinLength, RuleRange, RuleReqiured, makeArrayProp, makeFunctionProp, makeNumberProp, makeObjectProp, makeStringProp, makeToggle, useForm, useHandle, useInterval, useListener, useObjectUrl, usePagination, usePromise, useTimeout, validatorsToVxeRules, whenTruly };
