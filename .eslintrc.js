@@ -1,5 +1,5 @@
 module.exports = {
   'extends': [
-    '@nhz/eslint-config-ts',
+    '@fssgis/eslint-config-ts',
   ],
 }
