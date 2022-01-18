@@ -36,7 +36,7 @@ declare function makeObjectProp<T>(arg0: true): {
     type: PropType<T>;
     required: true;
 };
-declare function makeObjectProp<T>(arg0: T): {
+declare function makeObjectProp<T>(arg0: Nullable<T>): {
     type: PropType<T>;
     default(): T;
 };

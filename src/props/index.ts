@@ -2,8 +2,8 @@ import { Nullable } from '@fssgis/utils'
 import { PropType } from 'vue'
 
 export function makeObjectProp<T> (arg0: true) : { type: PropType<T>, required: true }
-export function makeObjectProp<T> (arg0: T) : { type: PropType<T>, default () : T }
-export function makeObjectProp<T> (arg0: T | true) : unknown {
+export function makeObjectProp<T> (arg0: Nullable<T>) : { type: PropType<T>, default () : T }
+export function makeObjectProp<T> (arg0: Nullable<T> | true) : unknown {
   return {
     type: null as any as unknown as PropType<T>, // eslint-disable-line
     required: typeof arg0 === 'boolean' ? arg0 : undefined,
