@@ -152,7 +152,8 @@ function usePromise(promise, initialValue) {
             .finally(() => state.loaded = true);
         return await ret;
     };
-    vue.watch(promise, () => execute(), { immediate: true });
+    let promiseLink = Promise.resolve();
+    vue.watch(promise, () => promiseLink = promiseLink.then(() => execute()), { immediate: true });
     return { ...vue.toRefs(state), execute };
 }
 

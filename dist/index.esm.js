@@ -148,7 +148,8 @@ function usePromise(promise, initialValue) {
             .finally(() => state.loaded = true);
         return await ret;
     };
-    watch(promise, () => execute(), { immediate: true });
+    let promiseLink = Promise.resolve();
+    watch(promise, () => promiseLink = promiseLink.then(() => execute()), { immediate: true });
     return { ...toRefs(state), execute };
 }
 

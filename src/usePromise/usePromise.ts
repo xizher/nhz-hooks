@@ -29,7 +29,10 @@ export function usePromise <T> (promise: MayBeRef<Fn<Promise<T>> | Promise<T>>, 
       .finally(() => state.loaded = true)
     return await ret
   }
-  watch(promise, () => execute(), { immediate: true })
+
+  let promiseLink : Promise<unknown> = Promise.resolve()
+
+  watch(promise, () => promiseLink = promiseLink.then(() => execute()), { immediate: true })
   return { ...toRefs(state) as ToRefs<PromiseHook<T>>, execute }
 }
 
